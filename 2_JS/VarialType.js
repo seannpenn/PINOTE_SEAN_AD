@@ -5,8 +5,8 @@ var c;
 var d = null;
 
 console.log(typeof b.three);
-console.log(`The variable ${b} is of type ${typeof number}`);
-console.lob(b);
+console.log(`The variable ${b.one} is of type ${typeof number}`);
+console.log(b);
 b.four = "Hi all";
 console.log(b);
 b["five"] = ["HAHAHHA", "MEOW"];
