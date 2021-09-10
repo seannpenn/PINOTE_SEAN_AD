@@ -6,14 +6,25 @@ export class Exercise3Controller {
     constructor(private readonly e3:Exercise3Service){}
 
     @Get("/HelloWorld")
-  getHello(): string {
+  HelloWorld(): string {
     return this.e3.HelloWorld();
   }
 
   @Get("/loopsTriangle/:height")
-  LoopsTriangle(@Param('height')height:string) {
-      var parsedHeight = parseInt(height);
-      this.e3.loopsTriangle(5);
-        return `type of height/parsedHeight ${parsedHeight} is ${typeof parsedHeight}`;
+  loopsTriangle(@Param('height')height:number) {
+      //var parsedHeight = parseInt(height);
+      return this.e3.loopsTriangle(height);
+      
+        //return `type of height/parsedHeight ${parsedHeight} is ${typeof parsedHeight}`;
+  }
+
+  @Get("/hello/:name")
+  hello(@Param('name')name:string){
+    return this.e3.hello(name);
+  }
+
+  @Get("/prime/:number")
+  prime(@Param('number')number:number){
+    return this.e3.prime(number);
   }
 } 

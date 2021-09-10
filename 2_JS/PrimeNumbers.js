@@ -8,7 +8,7 @@ for (var x = 0; x < 2; x++) {
 
         console.log(`${number} is a prime number? true`);
     }
-    number = 6;
+
 }
 
 //or

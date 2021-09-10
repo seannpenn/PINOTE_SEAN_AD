@@ -16,6 +16,30 @@ export class Exercise3Service {
       string += '\n';
     }
     console.log(string);
+
+    return string;
+    
   }
-  return;
+
+
+  hello(name:string){
+    return `Hi there, ${name}!`;
+  }
+
+  prime(number:number){
+
+    for (var x = 0; x < 2; x++) {
+      if (number % 2 == 0) {
+
+          console.log(`The number ${number} is not a prime number`);
+          return `The number ${number} is not a prime number`;
+  
+      } else {
+  
+          console.log(`The number ${number} is a prime number`);
+          return `The number ${number} is a prime number`;
+      }
+      
+    }
+  }
 }
