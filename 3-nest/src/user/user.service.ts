@@ -39,54 +39,44 @@ export class UserService {
           'age:' + userVar.toJson().age,
         ];
         //return [userIter.toJson().name];
-      }
-      else{
-          return "user not found."
+      } else {
+        return 'user not found.';
       }
     }
   }
 
   replaceAllValue(id: number, user: any) {
-
-    var userData:User;
-    userData = new User(id,user?.name,user?.age,user?.email,user?.password);
+    var userData: User;
+    userData = new User(id, user?.name, user?.age, user?.email, user?.password);
 
     for (const userVar of this.users.values()) {
-      if (userVar.toJson().id == id && user.age != undefined, user.email != undefined, user.id != undefined, user.name != undefined) {
-        this.users.set(id,userData);
+      if (
+        (userVar.toJson().id == id && user.age != undefined,
+        user.email != undefined,
+        user.id != undefined,
+        user.name != undefined)
+      ) {
+        this.users.set(id, userData);
         console.log(userData);
         return true;
-      } 
-      else {
-        return "You have inputted wrong data or empty data! Please fill in all the data to be changed! ";
+      } else {
+        return 'You have inputted wrong data or empty data! Please fill in all the data to be changed! ';
       }
     }
   }
 
   replaceValue(consID: number, user: any) {
-
-    // var userData:User;
-    // userData = new User(consID,user?.name,user?.age,user?.email,user?.password);
-    // for(const userVar of this.users.values()){
-    //     if(userVar.toJson().id == consID && userVar.toJson().age != undefined , userVar.toJson().email != undefined, userVar.toJson().id != undefined , userVar.toJson().name != undefined){
-    //         this.users.set(consID, new User(consID, user.name, user.age, user.email, user.password));
-    //         console.log(userData);
-    //         return true;
-    //     }
-    //     else{
-    //         return "You have inputted wrong data or empty data!";
-    //     }
-    // }
-    for(const userVar of this.users.values()){
-        if(this.users.has(consID)){
-            this.users.set(consID, new User(consID,user?.name,user?.age,user?.email,user?.password));
-            console.log(this.users);
-            return true;
-            
-        }
-        else {
-            return false;
-        }
+    for (const userVar of this.users.values()) {
+      if (this.users.has(consID)) {
+        this.users.set(
+          consID,
+          new User(consID, user?.name, user?.age, user?.email, user?.password),
+        );
+        console.log(this.users);
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
@@ -103,53 +93,57 @@ export class UserService {
 
   loginUser(login: any) {
     for (const user of this.users.values()) {
-        for(const authIter of this.users.values()){
-            if(authIter.login(login?.email, login?.password)){
-                return{
-                success: true,
-                message: "LOGIN SUCCESS"
-            }
-            }
-            else{
-                return {
-                 success: false,
-                 message: "LOGIN FAILURE"
-                }
-            }
-        }
+      if (user.login(login?.email, login?.password)) {
+        return {
+          success: true,
+          message: 'LOGIN SUCCESS',
+        };
+      } else {
+        return {
+          success: false,
+          message: 'LOGIN FAILURE',
+        };
+      }
     }
   }
 
   searchTerm(term: string) {
-
-    for(const searchVar of this.users.values()){
-
-        if(parseInt(term) == searchVar.toJson().id){
-            `Item ${parseInt(term)} found in the system!`;
-            return ["name:" + searchVar.toJson().name,"id:" + searchVar.toJson().id,
-            "email:" + searchVar.toJson().email, "age:" + searchVar.toJson().age];
-            
-            
-        }
-        else if(parseInt(term) == searchVar.toJson().age){
-            `Item ${parseInt(term)} found in the system!`;
-            return ["name:" + searchVar.toJson().name,"id:" + searchVar.toJson().id,
-            "email:" + searchVar.toJson().email, "age:" + searchVar.toJson().age];
-        }
-        else if(term == searchVar.toJson().name){
-            console.log(`Item ${(term)} found in the system!`);
-            return ["name:" + searchVar.toJson().name,"id:" + searchVar.toJson().id,
-            "email:" + searchVar.toJson().email, "age:" + searchVar.toJson().age];
-        }
-        else if(term.toUpperCase() == searchVar.toJson().email.toUpperCase()){
-            console.log(`Item ${(term)} found in the system!`);
-            return ["name:" + searchVar.toJson().name,"id:" + searchVar.toJson().id,
-            "email:" + searchVar.toJson().email, "age:" + searchVar.toJson().age];
-        }
-        else{
-            return "Searched item is not found in the system!"
-        }
-
+    for (const searchVar of this.users.values()) {
+      if (parseInt(term) == searchVar.toJson().id) {
+        `Item ${parseInt(term)} found in the system!`;
+        return [
+          'name:' + searchVar.toJson().name,
+          'id:' + searchVar.toJson().id,
+          'email:' + searchVar.toJson().email,
+          'age:' + searchVar.toJson().age,
+        ];
+      } else if (parseInt(term) == searchVar.toJson().age) {
+        `Item ${parseInt(term)} found in the system!`;
+        return [
+          'name:' + searchVar.toJson().name,
+          'id:' + searchVar.toJson().id,
+          'email:' + searchVar.toJson().email,
+          'age:' + searchVar.toJson().age,
+        ];
+      } else if (term == searchVar.toJson().name) {
+        console.log(`Item ${term} found in the system!`);
+        return [
+          'name:' + searchVar.toJson().name,
+          'id:' + searchVar.toJson().id,
+          'email:' + searchVar.toJson().email,
+          'age:' + searchVar.toJson().age,
+        ];
+      } else if (term.toUpperCase() == searchVar.toJson().email.toUpperCase()) {
+        console.log(`Item ${term} found in the system!`);
+        return [
+          'name:' + searchVar.toJson().name,
+          'id:' + searchVar.toJson().id,
+          'email:' + searchVar.toJson().email,
+          'age:' + searchVar.toJson().age,
+        ];
+      } else {
+        return 'Searched item is not found in the system!';
+      }
     }
   }
 

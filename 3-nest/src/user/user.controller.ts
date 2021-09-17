@@ -39,8 +39,8 @@ export class UserController {
     }
 
     @Post('/login')
-    loginUser(@Body()login:string){
-        return this.userService.loginUser(login);
+    loginUser(@Body()body:string){
+        return this.userService.loginUser(body);
     }
 
     @Get('/search/:term')
@@ -49,27 +49,5 @@ export class UserController {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    @Get("/populate")
-    populate(){
-        return this.userService.populate();
-        
-    }
-
-    @Get("/verify")
-    verify(){
-        return this
-    }
 
 }
