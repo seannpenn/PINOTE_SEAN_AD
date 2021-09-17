@@ -59,7 +59,7 @@ private cars:Map<string,car> = new Map<string, car>();
   logAllCars(){
     for(const [key_word,Car] of this.cars.entries()){
       console.log(key_word,Car);
-      //Car.log();
+      Car.log();
     }
   }
 }
