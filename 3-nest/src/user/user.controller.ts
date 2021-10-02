@@ -5,37 +5,37 @@ import { UserService } from './user.service';
 export class UserController {
     constructor(private readonly userService:UserService){}
 
-    @Post("/register")
+    @Post('/register')
     register(@Body()body:any){
         return this.userService.register(body);
     }
 
-    @Get("/all")
+    @Get('/all')
     getAll(){
         return this.userService.getAll();
     }
 
-    @Get("/:id")
-    getID(@Param('id')consID:string){
-        const Parse = parseInt(consID);
-        return this.userService.getID(Parse);
+    @Get('/:Userid')
+    getID(@Param('Userid') Userid:string){
+        // var Parse:number = parseInt(Userid);
+        return this.userService.getID(Userid);
     }
 
-    @Put("/:id")
-    replaceAllValue(@Param('id') id:number, @Body()body :any){
-        return this.userService.replaceAllValue(id,body);
+    @Put('/:id')
+    putValues(@Param('id') id:string, @Body()body :any){
+        return this.userService.putValues(id,body);
     }
 
-    @Patch("/:id")
-    replaceValue(@Param('id') id:string, @Body()body :any){
-        const Parse = parseInt(id);
-        return this.userService.replaceValue(Parse,body);
+    @Patch('/:id')
+    patchValues(@Param('id') id:string, @Body()body :any){
+        // const Parse = parseInt(id);
+        return this.userService.patchValues(id,body);
     }
 
     @Delete('/:id')
     deleteUser(@Param('id')id:string){
-        const Parse = parseInt(id);
-        return this.userService.deleteUser(Parse);
+        // const Parse = parseInt(id);
+        return this.userService.deleteUser(id);
     }
 
     @Post('/login')
@@ -44,7 +44,7 @@ export class UserController {
     }
 
     @Get('/search/:term')
-    searchTerm(@Param('term') term:string){
+    searchTerm(@Param('term')term:string){
         return this.userService.searchTerm(term);
 
     }
