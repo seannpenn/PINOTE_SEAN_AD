@@ -1,86 +1,141 @@
-
 import { count } from 'console';
 import { CRUDReturn } from './crud_return.interface';
 import { Helper } from './helper';
+import * as admin from 'firebase-admin';
+
 export class User {
-
-
   public id: string;
   private name: string;
   private age: number;
   private email: string;
   private password: string;
 
-
-  constructor(name: string, age: number, email: string, password: string) {
-    this.id = Helper.generateUID();
+  constructor(
+    name: string,
+    email: string,
+    age: number,
+    password: string,
+    id?: string
+  ) {
+    if(id!=undefined){
+      this.id = id;
+    }
+    else this.id = Helper.generateUID();
     this.name = name;
-    this.age = age;
     this.email = email;
+    this.age = age;
     this.password = password;
   }
 
-  login(password: string): CRUDReturn {
+  static async retrieve(id: string): Promise<User> {
     try {
-      if (this.password === password) {
-        return { success: true, data: this.toJson() };
-      } else {
-        throw new Error(`${this.email} login fail, password does not match`);
+      var DB = admin.firestore();
+      var result = await DB.collection("users").doc(id).get();
+      if (result.exists) {
+        var data = result.data();
+        return new User(data['id'], data['name'], data['age'], data['email'], data.id);
       }
     } catch (error) {
-      return { success: false, data: error.message };
+      return null;
     }
   }
 
-   matches(term: string): boolean {
-      var keys: Array <string> = Helper.describeClass(User);
-      keys = Helper.removeItemOnce(keys,'password');
-      for(const key of keys){
-        if(`${this[key]}` === term)
-        return true;
+  async commit():Promise <CRUDReturn>{
+    try{
+      var DB = admin.firestore();
+      var result = await DB.collection("users").doc(this.id).set(this.toJson());
+      console.log(result);
+      return{
+        success:true, data: this.toJson()
+      };
+    }catch(error){
+      console.log(error);
+      return{success:false, data:error};
+    }
+  }
+  
+  async login(password: string): Promise<CRUDReturn> {
+    var DB = admin.firestore();
+    var userPass = await DB.collection("users").where("password","==", password).get();
+    
+
+      if (!userPass.empty) {
+        console.log('hi!!!');
+        return { success: true, data: this.toJson()};
+      } else {
+        return { success: false,data: 'login fail, password does not match'};
       }
-      return false;
+    
   }
 
-  replaceValues(body: any): boolean {
-      if(this.id != body.id){
-        
-        this.name=body?.name;
-        this.age=body?.age;
-        this.email=body?.email;
-        this.password=body?.password;
-        return true;
-      }else{
-        return false;
-      }
+  async matches(term: string): Promise <boolean> {
+    var DB = admin.firestore();
+
+    var keys: Array<string> = Helper.describeClass(User);
+    keys = Helper.removeItemOnce(keys, 'password');
+
+    console.log(keys);
+    for (const key of keys) {
+      if (`${this[key]}` === term) return true;
+    }
+    return false;
   }
 
-  replaceOneValue(body: any):boolean{
+  async replaceValues(body: any): Promise <boolean> {
+    
+    var DB = admin.firestore();
+    await DB.collection("users").doc().update(body);
+
+    return true;
+      
+    // if (this.id != body.id) {
+    //   this.name = body?.name;
+    //   this.age = body?.age;
+    //   this.email = body?.email;
+    //   this.password = body?.password;
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+  }
+
+  replaceOneValue(body: any): boolean {
     return true;
   }
 
   // modifyUser(user:any){
-  //     this.id = 
+  //     this.id =
   // }
 
   log() {
     console.log(this.toJson());
   }
 
-  toJson() {    
+  toJson() {
     return {
-        id: this.id,
-        name:this.name,
-        age: this.age,
-        email: this.email,
-    }
-  }
-  toJsonPass(){
-    return{
+      id: this.id,
+      name: this.name,
+      age: this.age,
+      email: this.email,
       password: this.password
-    }
+    };
   }
-  overWriteID(prevID: string){
+  returnNoID() {
+    return {
+      name: this.name,
+      email: this.email,
+      age: this.age,
+    };
+  }
+  toJsonPass() {
+    return {
+      name: this.name,
+      email: this.email,
+      age: this.age,
+      password: this.password,
+    };
+  }
+  overWriteID(prevID: string) {
     this.id = prevID;
   }
 }

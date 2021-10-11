@@ -25,10 +25,10 @@ export class Helper {
     var result: Map<string, User> = new Map<string, User>();
     try {
       var users = [
-        new User('Leanne Graham', 18, 'sincere@april.biz', 'LG_123456'),
-        new User('Ervin Howell', 21, 'shanna@melissa.tv', 'EH_123123'),
-        new User('Nathan Plains', 25, 'nathan@yesenia.net', 'NP_812415'),
-        new User('Patricia Lebsack', 18, 'patty@kory.org', 'PL_12345'),
+        new User('Leanne Graham','sincere@april.biz', 18,  'LG_123456'),
+        new User('Ervin Howell', 'shanna@melissa.tv', 21, 'EH_123123'),
+        new User('Nathan Plains', 'nathan@yesenia.net', 25, 'NP_812415'),
+        new User('Patricia Lebsack', 'patty@kory.org', 18, 'PL_12345'),
       ];
       users.forEach((user) => {
         result.set(user.id, user);
