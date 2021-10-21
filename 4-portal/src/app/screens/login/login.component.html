@@ -1,0 +1,32 @@
+<!-- <header class="site-header">
+    <a href="home" class="home_header">Home</a>
+
+<nav class="site-nav">
+    <a href="login">Login</a>
+    <a href="register" class="register">Register</a>
+</nav>
+</header>  -->
+
+<div class="mainContent">
+    <div class="login">
+
+
+        <h1>Log in</h1>
+        <div class="inputs">
+            <input type="email" class="inputEmail" name="EMAIL" placeholder="Email" [formControl]="fCEmail">
+            <input type="password" class="inputPass" name="PASSWORD" placeholder="Password" [formControl]="fCPassword">
+        </div>
+        <p>
+            {{requestResult | json}}
+        </p>
+        <div class="btn_placements">
+
+            <!-- <p>Forgort username/password?</p> -->
+            <button class="register" (click)="this.nav('register')">Register</button>
+            <button (click)="login()">Login</button>
+        </div>
+        <div>
+            {{fCEmail.value}}<br> {{fCPassword.value}}
+        </div>
+    </div>
+</div>

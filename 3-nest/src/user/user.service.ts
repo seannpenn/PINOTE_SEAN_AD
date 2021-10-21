@@ -70,7 +70,7 @@ export class UserService {
     try {
       var allUsers = await this.getAllUserObjects();
       allUsers.forEach((users) => {
-          results.push(users.toJson());
+          results.push(users.returnNoID());
       });
       
       if(results.length>0)

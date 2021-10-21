@@ -1,0 +1,15 @@
+<header class="btns">
+    <button (click)="toggleDisplay();getAll()">Get All</button>
+    <button class="btnPatch">Patch</button>
+    <button class="btnPatch">Put</button>
+    <button class="btnPatch">Delete</button>
+</header>
+<div class="mainContent">
+    <div *ngIf="enable" class="contentGetAll">
+        <div *ngFor="let user of userList.data">
+            <div>{{ user | json }}</div>
+        </div>
+    </div>
+
+
+</div>
