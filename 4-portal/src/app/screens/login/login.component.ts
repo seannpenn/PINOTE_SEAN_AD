@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/shared/api.service';
+import { AuthService } from 'src/app/shared/auth.service';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  constructor(private router: Router, private api: HttpClient) {}
+  error: any;
+  constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit(): void {}
 
@@ -19,17 +21,18 @@ export class LoginComponent implements OnInit {
   userCredentials: string = 'null';
 
   async login() {
-    var result: any = await this.api
-      .post(environment.API_URL + '/user/login', {
-        email: this.fCEmail.value,
-        password: this.fCPassword.value,
-      })
-      .toPromise();
+    var result: any = await this.auth
+      .login(
+        this.fCEmail.value,
+        this.fCPassword.value,
+      );
     this.requestResult = result.data;
     console.log(result);
 
-    if (result.success) {
+    if (this.auth.authenticated) {
       this.nav('home');
+    }else {
+      this.error = result.data;
     }
     
   }

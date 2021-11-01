@@ -33,7 +33,7 @@ export class User {
       var result = await DB.collection("users").doc(id).get();
       if (result.exists) {
         var data = result.data();
-        return new User(data['id'], data['name'], data['age'], data['email'], data.id);
+        return new User(data['id'], data['name'], data['age'], data['email']);
       }
     } catch (error) {
       return null;
@@ -109,6 +109,14 @@ export class User {
 
   log() {
     console.log(this.toJson());
+  }
+  toJsonID() {
+    return {
+      id: this.id,
+      name: this.name,
+      age: this.age,
+      email: this.email,
+    };
   }
 
   toJson() {

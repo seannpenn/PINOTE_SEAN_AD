@@ -5,10 +5,7 @@ import { User } from './user.resource/user.model';
 import { CRUDReturn } from './user.resource/crud_return.interface';
 import { debug } from 'console';
 import * as admin from 'firebase-admin';
-import { doc } from 'prettier';
-import { validate } from 'uuid';
-import { getHeapSnapshot } from 'v8';
-import { database } from 'firebase-admin';
+
 
 @Injectable()
 export class UserService {
@@ -70,7 +67,7 @@ export class UserService {
     try {
       var allUsers = await this.getAllUserObjects();
       allUsers.forEach((users) => {
-          results.push(users.returnNoID());
+          results.push(users.toJsonID());
       });
       
       if(results.length>0)

@@ -1,0 +1,27 @@
+<div class="mainContent">
+    <div class="closeBtn">&times;</div>
+    <div class="form" [formGroup]="patchForm" (ngSubmit)="onSubmit()">
+
+        <h2>Patch Form</h2>
+        <div class="element">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Name" formControlName="fcName">
+        </div>
+        <div class="element">
+            <label for="age">Age</label>
+            <input type="age" id="age" placeholder="age" formControlName="fcAge">
+        </div>
+        <div class="element">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="email" formControlName="fcEmail">
+        </div>
+        <div class="element">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password" formControlName="fcPassword">
+        </div>
+        <p>{{ error }}</p>
+
+        <button class="patchBtn">Patch</button>
+
+    </div>
+</div>

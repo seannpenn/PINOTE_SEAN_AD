@@ -1,0 +1,66 @@
+<div class="userMain">
+    <table>
+        <thead>
+            <div>
+                <input type="text" name="userSearch" size="15"><button>Search</button>
+            </div>
+
+            <h3 (click)="resetDB()">Repopulate db</h3>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users; index as i">
+                <td>{{ i + 1 }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.age }}</td>
+                <td>
+                    <fa-icon (click)="pop(i)" name="faIcon" [icon]="faEdit"></fa-icon>
+                    <fa-icon (click)="deleteUser(i)" [icon]="faTrash"></fa-icon>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="active" class="mainContent" id="mainContent">
+    <div (click)="exit()" class="closeBtn">&times;</div>
+    <div class="form" [formGroup]="patchForm">
+        <!-- (ngSubmit)="onSubmit() -->
+
+        <h2>Patch Form</h2>
+        <div *ngFor="let keys of userKeys; index as i">
+            <input type="checkbox" (click)="clicked(i)">{{keys.name}}
+
+        </div>
+
+        <div *ngIf="clickedName" class="element ">
+            <label for="name ">Name</label>
+            <input type="text " id="name " placeholder="Name " formControlName="fcName">
+        </div>
+        <div *ngIf="clickedAge" class="element ">
+            <label for="age ">Age</label>
+            <input type="age " id="age " placeholder="age " formControlName="fcAge">
+        </div>
+        <div *ngIf="clickedEmail" class="element ">
+            <label for="email ">Email</label>
+            <input type="email " id="email " placeholder="email " formControlName="fcEmail">
+        </div>
+        <!-- <div *ngIf="clickedPassword" class="element ">
+            <label for="password ">Password</label>
+            <input type="password " id="password " placeholder="Enter password" formControlName="fcPassword">
+        </div> -->
+
+
+        <button (click)="patchUser(userId) " class="patchBtn ">Patch</button>
+
+    </div>
+    <p>{{error}}</p>
+    <!-- <p>{{ patchForm.value | json }}</p> -->
+</div>

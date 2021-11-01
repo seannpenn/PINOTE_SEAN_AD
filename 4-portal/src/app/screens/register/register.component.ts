@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  constructor(private router: Router, private api: HttpClient) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   registerForm: FormGroup = new FormGroup({
     fcName: new FormControl('', Validators.required),
@@ -24,15 +25,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  async onSubmit() {
-    var result: any = await this.api
-      .post(environment.API_URL + '/user/register', {
-        name: this.registerForm.value.fcName,
-        age: this.registerForm.value.fcAge,
-        email: this.registerForm.value.fcEmail,
-        password: this.registerForm.value.fcPassword,
-      })
-      .toPromise();
+  onSubmit() {
     if (
       this.registerForm.value['fcPassword'] !==
       this.registerForm.value['fcPassword2']
@@ -55,19 +48,22 @@ export class RegisterComponent implements OnInit {
       };
       payload = {
         name: this.registerForm.value.fcName,
-        age: this.registerForm.value.fcAge,
+        age: parseInt(this.registerForm.value.fcAge),
         email: this.registerForm.value.fcEmail,
         password: this.registerForm.value.fcPassword,
       };
-      console.log(payload);
+      
+      this.auth.register(payload).then((data) => {
+        console.log(data);
+        if (this.auth.authenticated) {
+          this.nav('home');
+        } else {
+          this.error = data.data;
+          console.log(this.error);
+        }
+      });
     }
 
-    if (result.success) {
-      alert('Registration Success');
-    }
-    if(result.success == false){
-      alert(result.data);
-    }
   }
 
   nav(destination: string) {

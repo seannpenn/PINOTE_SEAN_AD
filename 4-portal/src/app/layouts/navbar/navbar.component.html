@@ -1,0 +1,24 @@
+<div class="nav-body">
+    <div class="site-title">
+        <h3 (click)="nav('home')">TeachWer</h3>
+    </div>
+    <div class="site-links">
+        <h5>Home</h5>
+        <h5 (click)="nav('register')">Register</h5>
+        <h5>Login</h5>
+    </div>
+    <div class="site-user">
+        <button class="dropbtn"> 
+            <h5 *ngIf="auth.authenticated" (click)='logout()'>Logout</h5>
+            <h5 *ngIf="!auth.authenticated" (click)="nav('login')">Login</h5>
+        </button>
+
+        <!-- <div class="siteUser-content">
+            <a href="#">Profile</a>
+            <h5 *ngIf="auth.authenticated" (click)='logout()'>Logout</h5>
+            <h5 *ngIf="!auth.authenticated" (click)="nav('login')">Login</h5>
+            <a href="#">Logout</a>
+        </div> -->
+
+    </div>
+</div>
