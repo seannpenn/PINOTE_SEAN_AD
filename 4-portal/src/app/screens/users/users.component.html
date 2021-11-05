@@ -1,13 +1,16 @@
 <div class="userMain">
+
     <table>
+
         <thead>
             <div>
-                <input type="text" name="userSearch" size="15"><button>Search</button>
+                <input class="searchBar" type="text" name="fcSearch" [(ngModel)]="fcSearch" placeholder="Enter keyword">
             </div>
 
             <h3 (click)="resetDB()">Repopulate db</h3>
             <tr>
                 <th>No</th>
+                <th>User ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Age</th>
@@ -15,14 +18,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users; index as i">
-                <td>{{ i + 1 }}</td>
+            <tr *ngFor="let user of users | searchfilter: fcSearch ; index as i ">
+                <td>{{ i + 1}}</td>
+                <td>{{ user.id}}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.age }}</td>
+
                 <td>
-                    <fa-icon (click)="pop(i)" name="faIcon" [icon]="faEdit"></fa-icon>
-                    <fa-icon (click)="deleteUser(i)" [icon]="faTrash"></fa-icon>
+                    <fa-icon (click)="pop(user.id)" name="faIcon" [icon]="faEdit"></fa-icon>
+                    <fa-icon (click)="deleteUser(user.id)" [icon]="faTrash"></fa-icon>
                 </td>
             </tr>
         </tbody>
@@ -36,27 +41,22 @@
 
         <h2>Patch Form</h2>
         <div *ngFor="let keys of userKeys; index as i">
-            <input type="checkbox" (click)="clicked(i)">{{keys.name}}
-
+            <input type="checkbox" (click)="clicked(i);getValuePatch(userId)">{{keys.name}}
         </div>
 
-        <div *ngIf="clickedName" class="element ">
+        <!-- this.users[this.userId].name -->
+        <div *ngIf="userKeys[0].value" class="element ">
             <label for="name ">Name</label>
-            <input type="text " id="name " placeholder="Name " formControlName="fcName">
+            <input type="text" id="name " placeholder={{passKeyName}} formControlName="fcName">
         </div>
-        <div *ngIf="clickedAge" class="element ">
+        <div *ngIf="userKeys[1].value" class="element ">
             <label for="age ">Age</label>
-            <input type="age " id="age " placeholder="age " formControlName="fcAge">
+            <input type="age " id="age " placeholder={{passKeyAge}} formControlName="fcAge">
         </div>
-        <div *ngIf="clickedEmail" class="element ">
+        <div *ngIf="userKeys[2].value" class="element ">
             <label for="email ">Email</label>
-            <input type="email " id="email " placeholder="email " formControlName="fcEmail">
+            <input type="email " id="email " placeholder={{passKeyEmail}} formControlName="fcEmail">
         </div>
-        <!-- <div *ngIf="clickedPassword" class="element ">
-            <label for="password ">Password</label>
-            <input type="password " id="password " placeholder="Enter password" formControlName="fcPassword">
-        </div> -->
-
 
         <button (click)="patchUser(userId) " class="patchBtn ">Patch</button>
 

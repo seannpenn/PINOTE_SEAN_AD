@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit {
       this.registerForm.value['fcPassword2']
     ) {
       this.error = 'Password doesnt match!';
+      console.log(this.error);
       return;
     }
     if (!this.registerForm.valid) {
@@ -56,7 +57,8 @@ export class RegisterComponent implements OnInit {
       this.auth.register(payload).then((data) => {
         console.log(data);
         if (this.auth.authenticated) {
-          this.nav('home');
+          alert('Regisration success!');
+          this.nav('login');
         } else {
           this.error = data.data;
           console.log(this.error);

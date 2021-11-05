@@ -1,6 +1,6 @@
 <div class="nav-body">
     <div class="site-title">
-        <h3 (click)="nav('home')">TeachWer</h3>
+        <h3 *ngIf="auth.authenticated" (click)="nav('home')">TeachWer</h3>
     </div>
     <div class="site-links">
         <h5>Home</h5>

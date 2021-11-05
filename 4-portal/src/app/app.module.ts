@@ -17,7 +17,8 @@ import { AuthService } from './shared/auth.service';
 import { UsersComponent } from './screens/users/users.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
-import { PatchLayoutComponent } from './layouts/patch-layout/patch-layout.component';
+import { SearchfilterPipe } from './searchfilter.pipe';
+// import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { PatchLayoutComponent } from './layouts/patch-layout/patch-layout.compon
     FooterComponent,
     UsersComponent,
     SidebarComponent,
-    PatchLayoutComponent
+    SearchfilterPipe,
   ],
   imports: [
     HttpClientModule,
@@ -39,6 +40,8 @@ import { PatchLayoutComponent } from './layouts/patch-layout/patch-layout.compon
     ReactiveFormsModule,
     SharedModule,
     FontAwesomeModule,
+    FormsModule,
+    // Ng2SearchPipeModule
     
   ],
   providers: [ApiService, AuthService],

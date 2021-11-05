@@ -26,6 +26,7 @@ export class ApiService {
       return null;
     }
   }
+  
   async patch(url: string, body?:any): Promise<any> {
     try {
       return await this.api.patch(environment.API_URL+url,body).toPromise();

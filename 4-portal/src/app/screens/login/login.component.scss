@@ -36,6 +36,9 @@ html {
         flex-direction: column;
         justify-content: space-between;
         text-align: center;
+        h5 {
+            cursor: pointer;
+        }
     }
     h1 {
         color: #ddfcf9;

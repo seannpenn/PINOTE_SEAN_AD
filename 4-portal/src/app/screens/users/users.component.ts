@@ -10,35 +10,38 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class UsersComponent implements OnInit {
   users: Array<User> = [];
-
+  
   //icons
   faTrash = faTrash;
   faEdit = faEdit;
-
+  
   clickedName = false;
   clickedAge = false;
   clickedEmail = false;
   clickedPassword = false;
+  userId: string = '';
+  userKeyIter = 0;
+  passKeyName: string | undefined;
+  passKeyAge: number | undefined;
+  passKeyEmail: string | undefined;
 
   constructor(private api: ApiService) {}
 
-
   error = '';
-
- 
+  
+  fcSearch:any;
 
   patchForm: FormGroup = new FormGroup({
-    fcName: new FormControl(''),
-    fcAge: new FormControl(0, Validators.min(1)),
-    fcEmail: new FormControl(''),
-    // fcPassword: new FormControl('')
+    
+    fcName: new FormControl('', Validators.required),
+    fcAge: new FormControl(0),
+    fcEmail: new FormControl('', Validators.required),
   });
   
   userKeys:Array<any> =[
     {name: "Name", value: false},
     {name: "Age", value: false},
     {name: "Email", value: false},
-    // {name: "Password", value: false},
   ]
 
   ngOnInit(): void {
@@ -46,65 +49,59 @@ export class UsersComponent implements OnInit {
   }
 
   clicked(i:number){
-
-    if(i == 0){
-      this.clickedName = !this.clickedName;
-    }
-    if(i == 1){
-      this.clickedAge = !this.clickedAge;
-    }
-    if(i == 2){
-      this.clickedEmail = !this.clickedEmail;
-    }
-    if(i == 3){
-      this.clickedPassword = !this.clickedPassword;
-    }
+    
+    if(i == 0){this.userKeys[i].value = !this.userKeys[i].value;}
+    else if(i == 1){this.userKeys[i].value = !this.userKeys[i].value;}
+    else if(i == 2){this.userKeys[i].value = !this.userKeys[i].value;}
+    this.userKeyIter = i;
   }
-
-  async deleteUser(i: number) {
-    var decision = confirm('Delete user ' + this.users[i].name);
-    if(decision)
-    {
-      var result = await this.api.delete(`/user/${this.users[i].id}`);
-      if(result.success){
-        this.getData();
-      }
-    }
-    return i;
-  }
-
-  ///////////////////////////////////////////////////
-  ///////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-  userId = 0;
+  
   active = false;
 
   async exit(){
     this.active = false;
-    this.clickedName = false;
-    this.clickedAge = false;
-    this.clickedEmail = false;
-    this.clickedPassword = false;
     this.patchForm.reset();
+    this.userKeyIter = 0;
+    this.userKeys[0].value = false;
+    this.userKeys[1].value = false;
+    this.userKeys[2].value = false;
   }
-  async pop(i:number){
+  async pop(passId:string){
+    this.userId = passId;
+    this.active = true;
+  }
+  async getValuePatch(passId:string){
+    passId = this.userId;
+    this.users.forEach(user=>{
+      if(user.id == passId){
+        if(this.userKeys[0].value == true)
+          this.passKeyName = user.name;
+        if(this.userKeys[1].value == true)
+          this.passKeyAge = user.age;
+        if(this.userKeys[2].value == true)
+        this.passKeyEmail = user.email;
+      }
+    });
+
+  }
+  async patchUser(passId:string){
+    this.active = true;
+
+    var returnName: Array<string> = [];
     
-    this.userId = i;
-    this.active = true;
-  }
-  async patchUser(i:number){
-    this.active = true;
-  
-    var decision = confirm('Confirm patch request for user ' + this.users[i].name + '?');
+    this.users.forEach(user=>{
+      if(user.id == passId){
+        returnName.push(user.name);
+      }
+    });
+    
+    var decision = confirm('Confirm patch request for user ' + returnName + '?');
     if(decision){
-        var result = await this.api.patch(`/user/${this.users[i].id}`,{
+        var result = await this.api.patch(`/user/${passId}`,{
           name: this.patchForm.value["fcName"] || undefined,
           age: parseInt(this.patchForm.value["fcAge"]) || undefined,
           email: this.patchForm.value["fcEmail"]|| undefined,
           
-          // password: this.patchForm.value["fcPassword"]|| undefined,
         }); 
     }
     if(result.success){
@@ -112,9 +109,30 @@ export class UsersComponent implements OnInit {
       this.exit();
     }else{
       this.error = result.data;
-      console.log(result.error);
     }
-    
+  }
+
+
+  async deleteUser(i: string) {
+    var returnName: Array<string> = [];
+    this.users.forEach(user=>{
+      if(user.id == i) returnName.push(user.name);
+    });
+
+    var decision = confirm('Delete user ' + returnName +'?')
+    if(decision)
+    {
+      var result = await this.api.delete(`/user/${i}`);
+      if(result.success){
+        this.getData();
+      }
+    }
+    return i;
+  }
+
+  async getUserInfo(i:number){
+    var result = await this.api.get(`/user/${this.users[i].id}`);
+    console.log(result.data);
   }
   
   
