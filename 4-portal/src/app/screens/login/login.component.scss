@@ -24,7 +24,7 @@ html {
     align-content: center;
     .login {
         // background-image: linear-gradient(45deg, #56CCF2, #2F80ED);
-        background-color: #49E3D5;
+        background-color: #008970;
         border-style: hidden;
         width: 500px;
         height: 300px;
@@ -38,10 +38,11 @@ html {
         text-align: center;
         h5 {
             cursor: pointer;
+            color: white;
         }
     }
     h1 {
-        color: #ddfcf9;
+        color: #99eedf;
         font-size: 25px;
         display: grid;
         justify-content: center;
@@ -69,7 +70,7 @@ html {
         justify-content: space-evenly;
     }
     button {
-        background: #49E3D5;
+        background: #99eedf;
         align-self: center;
         width: 240px;
         height: 35px;
@@ -82,7 +83,7 @@ html {
     }
     p {
         font-size: small;
-        color: black;
+        color: #99eedf;
     }
 }
 
